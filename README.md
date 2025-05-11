@@ -1,0 +1,1 @@
+A mod that lets you add potion effects to food.
