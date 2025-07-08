@@ -1,15 +1,10 @@
 {
   "type": "spikefood:food_spiking",
   "ingredients": [
-    {
-      "item": "minecraft:apple"
-    },
-    {
-      "item": "minecraft:diamond"
-    }
+    { "item": "minecraft:apple" },
+    { "item": "minecraft:potion" }
   ],
   "result": {
-    "item": "minecraft:apple",
-    "count": 1
+    "item": "minecraft:bread"
   }
 }
