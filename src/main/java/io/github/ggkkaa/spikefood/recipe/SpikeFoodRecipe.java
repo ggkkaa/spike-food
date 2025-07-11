@@ -6,6 +6,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -80,12 +81,15 @@ public class SpikeFoodRecipe implements CraftingRecipe {
 
         Potion potionType = PotionUtils.getPotion(potion);
         if(!potionType.getEffects().isEmpty()) {
-            MobEffectInstance effect = potionType.getEffects().get(0);
-            CompoundTag effectTag = new CompoundTag();
-            effectTag.putString("id", ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString());
-            effectTag.putInt("amplifier", effect.getAmplifier());
-            effectTag.putInt("duration", effect.getDuration());
-            tag.put("Effect", effectTag);
+            ListTag storedEffects = new ListTag();
+            for (MobEffectInstance effect : potionType.getEffects()) {
+                CompoundTag effectTag = new CompoundTag();
+                effectTag.putString("id", ForgeRegistries.MOB_EFFECTS.getKey(effect.getEffect()).toString());
+                effectTag.putInt("amplifier", effect.getAmplifier());
+                effectTag.putInt("duration", effect.getDuration());
+                storedEffects.add(effectTag);
+            }
+            tag.put("Effect", storedEffects);
         }
 
         return result;

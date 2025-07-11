@@ -43,7 +43,9 @@ public class SpikeFood
         if (!stack.hasTag()) return;
 
         CompoundTag tag = stack.getTag();
-        if (!tag.contains("Effect", Tag.TAG_COMPOUND)) return;
+        if (!tag.contains("Effect", Tag.TAG_LIST)) return;
+        ListTag effectList = tag.getList("Effect", Tag.TAG_COMPOUND);
+
         CompoundTag effect = tag.getCompound("Effect");
 
         CompoundTag allEffects = tag.contains("Effects", Tag.TAG_COMPOUND)
@@ -53,9 +55,8 @@ public class SpikeFood
         UUID uuid = event.getEntity().getUUID();
         String uuidKey = uuid.toString();
 
-        ListTag effectList = new ListTag();
-        effectList.add(effect.copy());
-        allEffects.put(uuidKey, effectList);
+        ListTag finalEffectList = effectList.copy();
+        allEffects.put(uuidKey, finalEffectList);
         tag.put("Effects", allEffects);
         tag.remove("Effect");
     }
