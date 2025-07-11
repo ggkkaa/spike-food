@@ -2,6 +2,7 @@ package io.github.ggkkaa.spikefood.recipe;
 
 import com.google.gson.JsonObject;
 import io.github.ggkkaa.spikefood.SpikeFood;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -118,6 +119,21 @@ public class SpikeFoodRecipe implements CraftingRecipe {
     @Override
     public @NotNull CraftingBookCategory category() {
         return CraftingBookCategory.MISC;
+    }
+
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv) {
+        NonNullList<ItemStack> remaining = NonNullList.withSize(inv.getContainerSize(), ItemStack.EMPTY);
+
+        for (int i = 0; i < inv.getContainerSize(); ++i) {
+            ItemStack itemStack = inv.getItem(i);
+
+            if (itemStack.getItem() instanceof PotionItem) {
+                remaining.set(i, new ItemStack(Items.GLASS_BOTTLE));
+            }
+        }
+
+        return remaining;
     }
 
     public static class Serializer implements RecipeSerializer<SpikeFoodRecipe> {
